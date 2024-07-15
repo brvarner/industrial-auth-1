@@ -71,6 +71,11 @@ class CommentsController < ApplicationController
         comment = Comment.find(params[:id])
         photo = comment.photo.id
       end
+      
+      @photo = Photo.find(photo)
+      if current_user != @photo.owner && @photo.owner.private? && !current_user.leaders.include?(@photo.owner)
+        redirect_back fallback_location: root_url, alert: "Not authorized"
+      end
     end
 
     # Only allow a list of trusted parameters through.
