@@ -2,8 +2,9 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[show liked followers following discover feed]
   before_action :correct_user_feed, only: %i[feed]
   before_action :correct_user_discover, only: %i[discover]
-
-
+  before_action :user_auth
+  
+  
   private
 
   def set_user
@@ -17,5 +18,9 @@ class UsersController < ApplicationController
   
   def correct_user_discover
     redirect_to discover_path(current_user.username) unless current_user == @user
+  end
+
+  def user_auth
+    authorize @user
   end
 end

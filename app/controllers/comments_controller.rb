@@ -1,10 +1,11 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ show edit update destroy ]
   before_action :is_an_authorized_user, only: [:destroy, :create]
+  before_action { authorize @comment || Comment}
 
   # GET /comments or /comments.json
   def index
-    @comments = Comment.all
+    @comments = policy_scope(Comment)
   end
 
   # GET /comments/1 or /comments/1.json

@@ -1,9 +1,10 @@
 class LikesController < ApplicationController
   before_action :set_like, only: %i[ show edit update destroy ]
+  before_action { authorize @like || Like }
 
   # GET /likes or /likes.json
   def index
-    @likes = Like.all
+    @likes = policy_scope(Like)
   end
 
   # GET /likes/1 or /likes/1.json
@@ -66,4 +67,7 @@ class LikesController < ApplicationController
     def like_params
       params.require(:like).permit(:fan_id, :photo_id)
     end
+
+    def ensure_current_user_is_owner
+
 end
