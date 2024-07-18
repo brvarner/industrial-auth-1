@@ -4,7 +4,6 @@ class LikesController < ApplicationController
 
   # GET /likes or /likes.json
   def index
-    @likes = policy_scope(Like)
   end
 
   # GET /likes/1 or /likes/1.json

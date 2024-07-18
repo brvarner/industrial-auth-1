@@ -47,10 +47,4 @@ class UserPolicy < ApplicationPolicy
      !user.private? || 
      user.followers.include?(current_user)
   end
-
-  class Scope < Scope
-    def resolve
-      scope.where(user: user)
-    end
-  end
 end

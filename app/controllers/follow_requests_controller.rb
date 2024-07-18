@@ -1,11 +1,10 @@
 class FollowRequestsController < ApplicationController
   before_action :set_follow_request, only: %i[ show edit update destroy ]
-  before_action :follow_request_auth, only: %i[index show edit update destroy]
   before_action :authorize_new_follow_request, only: %i[new create]
+  before_action { authorize @follow_request || FollowRequest }
 
   # GET /follow_requests or /follow_requests.json
   def index
-    @follow_requests = policy_scope(FollowRequest)
   end
 
   # GET /follow_requests/1 or /follow_requests/1.json
@@ -69,10 +68,6 @@ class FollowRequestsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def follow_request_params
       params.require(:follow_request).permit(:recipient_id, :sender_id, :status)
-    end
-
-    def follow_request_auth
-      authorize @follow_request
     end
 
     def authorize_new_follow_request
