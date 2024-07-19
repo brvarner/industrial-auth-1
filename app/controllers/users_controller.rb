@@ -2,12 +2,17 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[show liked followers following discover feed]
   before_action :correct_user_feed, only: %i[feed]
   before_action :correct_user_discover, only: %i[discover]
-
-
+  before_action { authorize @user || User }
+  
+  
   private
 
   def set_user
-    @user = User.find_by!(username: params[:username]) if params[:username]
+    if params[:username] == "photos" || params[:username] == "users"
+      redirect_to root_path
+    else
+      @user = User.find_by!(username: params[:username]) if params[:username]
+    end
   end
 
   def correct_user_feed
