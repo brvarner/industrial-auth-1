@@ -66,7 +66,4 @@ class LikesController < ApplicationController
     def like_params
       params.require(:like).permit(:fan_id, :photo_id)
     end
-
-    def ensure_current_user_is_owner
-
 end
