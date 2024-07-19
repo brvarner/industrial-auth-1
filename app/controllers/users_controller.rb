@@ -8,7 +8,11 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.find_by!(username: params[:username]) if params[:username]
+    if params[:username] == "photos" || params[:username] == "users"
+      redirect_to root_path
+    else
+      @user = User.find_by!(username: params[:username]) if params[:username]
+    end
   end
 
   def correct_user_feed

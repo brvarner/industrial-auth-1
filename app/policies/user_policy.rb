@@ -23,7 +23,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def liked?
-   show?
+   show_photo?
   end
 
   def followers?
@@ -42,9 +42,19 @@ class UserPolicy < ApplicationPolicy
    show?
   end
 
+  def destroy?
+    edit?
+  end
+
   def show_photo?
    user == current_user ||
      !user.private? || 
      user.followers.include?(current_user)
+  end
+
+  class Scope < Scope
+    def resolve
+      scope.where(user: user)
+    end
   end
 end
